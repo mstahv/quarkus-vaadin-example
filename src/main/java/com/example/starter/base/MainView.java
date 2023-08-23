@@ -13,7 +13,7 @@ import com.vaadin.flow.router.Route;
 /**
  * The main view contains a button and a click listener.
  */
-@Route
+@Route(layout = MainLayout.class)
 public class MainView extends VerticalLayout {
 
     @Inject
