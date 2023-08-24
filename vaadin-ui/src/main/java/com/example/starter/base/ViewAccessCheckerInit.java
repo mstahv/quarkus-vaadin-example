@@ -9,8 +9,6 @@ public class ViewAccessCheckerInit implements VaadinServiceInitListener {
 
     public ViewAccessCheckerInit() {
         viewAccessChecker = new ViewAccessChecker();
-        // Set the path to the core login URI for redirects if the user is not authenticated
-        //viewAccessChecker.setLoginView("/login");
     }
 
     @Override

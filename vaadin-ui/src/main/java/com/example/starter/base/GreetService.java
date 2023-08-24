@@ -1,12 +1,12 @@
 package com.example.starter.base;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Dependent;
 
 /**
- * A service class for greeting the user. Used via
- * CDI directly in the Vaadin views & in the JAX-RS resource.
+ * A service class for greeting the user.
  */
-@Dependent
+@ApplicationScoped
 public class GreetService {
 
     public String greet(String name) {
