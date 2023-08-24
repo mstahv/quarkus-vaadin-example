@@ -5,13 +5,11 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
-import io.quarkus.oidc.OidcSession;
-import io.quarkus.security.runtime.SecurityIdentityAssociation;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.vaadin.firitin.appframework.NavigationItem;
 import org.vaadin.firitin.components.button.VButton;
-
 
 @Dependent
 public class MainLayout extends org.vaadin.firitin.appframework.MainLayout {
@@ -19,7 +17,7 @@ public class MainLayout extends org.vaadin.firitin.appframework.MainLayout {
     VerticalLayout sessionlayout = new VerticalLayout();
 
     @Inject
-    SecurityIdentityAssociation identity;
+    JsonWebToken accessToken;
 
     @Override
     protected String getDrawerHeader() {
@@ -34,7 +32,18 @@ public class MainLayout extends org.vaadin.firitin.appframework.MainLayout {
                 addToDrawer(sessionlayout);
             }
             sessionlayout.removeAll();
-            if (identity == null || identity.getIdentity().getPrincipal().getName() == null || identity.getIdentity().getPrincipal().getName().isEmpty()) {
+
+            if(accessToken.getName() != null) {
+
+                sessionlayout.add(
+                        new Paragraph("Current user:" + accessToken.getName()),
+                        new VButton("Logout", e -> {
+                            // This url will be intercepted by
+                            // Quarkus OIDC extension and logout will be performed
+                            UI.getCurrent().getPage().setLocation("/logout");
+                        })
+                );
+            } else {
                 sessionlayout.add(
                         new VButton("Login", e -> {
                             // Forward with full page reload to an
@@ -44,16 +53,6 @@ public class MainLayout extends org.vaadin.firitin.appframework.MainLayout {
                             UI.getCurrent().getPage().setLocation("/" + BasicView.PATH);
                         }).withTooltip("You'll be redirected to to OIDC server to login")
                 );
-            } else {
-                sessionlayout.add(
-                        new Paragraph("Current user:" + identity.getIdentity().getPrincipal().getName()),
-                        new VButton("Logout", e -> {
-                            // This url will be intercepted by
-                            // Quarkus OIDC extension and logout will be performed
-                            UI.getCurrent().getPage().setLocation("/logout");
-                        })
-                );
-
             }
         } catch (Exception e) {
             e.printStackTrace();

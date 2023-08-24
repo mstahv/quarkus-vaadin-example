@@ -1,6 +1,7 @@
 package com.example.starter.base;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -8,6 +9,7 @@ import com.vaadin.flow.router.Route;
 import io.quarkus.security.runtime.SecurityIdentityAssociation;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.vaadin.firitin.appframework.MenuItem;
 
@@ -29,8 +31,13 @@ public class BasicView extends VerticalLayout {
     @RestClient
     RestGreetServiceClient restGreetServiceClient;
 
-    public BasicView(SecurityIdentityAssociation identity) {
+
+    public BasicView(SecurityIdentityAssociation identity, @ConfigProperty(name = "quarkus.oidc.auth-server-url")
+    String oicdServerUrl) {
         add("This view is shown if logged in, the name is taken from the security context. There is also a button to call a REST API (aka microservice), to which the JWT token is passed.");
+        add("OICD server: (login with admin/admin if started with Quarkus dev mode)");
+        oicdServerUrl = oicdServerUrl.substring(0, oicdServerUrl.indexOf("/realms"));
+        add(new Anchor(oicdServerUrl,oicdServerUrl));
         TextField textField = new TextField("Your name");
         textField.setValue(identity.getIdentity().getPrincipal().getName());
 
