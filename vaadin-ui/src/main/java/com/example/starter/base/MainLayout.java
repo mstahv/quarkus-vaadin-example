@@ -21,9 +21,6 @@ public class MainLayout extends org.vaadin.firitin.appframework.MainLayout {
     @Inject
     SecurityIdentityAssociation identity;
 
-    @Inject
-    OidcSession oidcSession;
-
     @Override
     protected String getDrawerHeader() {
         return "Quarkus }> samples";
@@ -33,10 +30,11 @@ public class MainLayout extends org.vaadin.firitin.appframework.MainLayout {
     protected void onAttach(AttachEvent attachEvent) {
         super.onAttach(attachEvent);
         try {
-            addToDrawer(sessionlayout);
+            if(!sessionlayout.isAttached()) {
+                addToDrawer(sessionlayout);
+            }
             sessionlayout.removeAll();
             if (identity == null || identity.getIdentity().getPrincipal().getName() == null || identity.getIdentity().getPrincipal().getName().isEmpty()) {
-                System.err.println("NOT LOGGED IN");
                 sessionlayout.add(
                         new VButton("Login", e -> {
                             // Forward with full page reload to an
@@ -46,9 +44,7 @@ public class MainLayout extends org.vaadin.firitin.appframework.MainLayout {
                             UI.getCurrent().getPage().setLocation("/" + BasicView.PATH);
                         }).withTooltip("You'll be redirected to to OIDC server to login")
                 );
-                System.err.println("NOT LOGGED IN");
             } else {
-                System.err.println("LOGGED IN");
                 sessionlayout.add(
                         new Paragraph("Current user:" + identity.getIdentity().getPrincipal().getName()),
                         new VButton("Logout", e -> {
