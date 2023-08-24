@@ -11,7 +11,11 @@ This is a slightly more complex starting point for Quarkus based Vaadin apps. In
 
 This project can be used as a starting point to create your own Vaadin Flow application for Quarkus. It contains all the necessary configuration with some placeholder files to get you started.
 
-Quarkus 3.0+ & Vaadin 24 requires Java 17.
+## Requirements
+
+ * Quarkus 3+ & Vaadin 24+ requires *Java 17*.
+ * *Maven* (unless using via IDE)
+ * *Docker* (Quarkus Dev mode needs that to launch KeyCloak instance)
 
 ## Running the Application
 
