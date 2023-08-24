@@ -2,8 +2,8 @@
 
 This is a slightly more complex starting point for Quarkus based Vaadin apps. In addition to the core example, this has:
 
- * Top level navigation (via Viritin add-on, automatically pics available views to the menu)
- * Couple of views, of which only one is show by default
+ * Top level navigation (via Viritin add-on, automatically picks available views to the menu)
+ * Couple of views, off which only one is show by default
  * A simple authentication and authorization functionality with the Quarkus OpenID Connect integration
    * Implemented with KeyCloak as it is super handy with Quarkus automatically launching a KeyCloak instance for you for testing. Should be swappable to any OIDC provider.
    * Configuring ViewAccessChecker that takes care of redirecting to login view if user is not logged in when trying to access a view that requires authentication.
