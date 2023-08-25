@@ -33,7 +33,7 @@ public class MainLayout extends org.vaadin.firitin.appframework.MainLayout {
             }
             sessionlayout.removeAll();
 
-            if(accessToken.getName() != null) {
+            if(accessToken != null && accessToken.getName() != null) {
 
                 sessionlayout.add(
                         new Paragraph("Current user:" + accessToken.getName()),
