@@ -20,6 +20,11 @@ public class MainLayout extends org.vaadin.firitin.appframework.MainLayout {
     @Inject
     JsonWebToken accessToken;
 
+    public MainLayout(JsonWebToken accessToken) {
+        this.accessToken = accessToken;
+        setId("main-layout");
+    }
+
     public JsonWebToken getAccessToken() {
         /*
          * There seems to be some timing issue in some cases
