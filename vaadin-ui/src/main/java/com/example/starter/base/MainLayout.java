@@ -7,7 +7,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.vaadin.firitin.appframework.NavigationItem;
@@ -20,25 +19,6 @@ public class MainLayout extends org.vaadin.firitin.appframework.MainLayout imple
 
     @Inject
     JsonWebToken accessToken;
-
-    public MainLayout(JsonWebToken accessToken) {
-        this.accessToken = accessToken;
-        setId("main-layout");
-    }
-
-    public JsonWebToken getAccessToken() {
-        /*
-         * There seems to be some timing issue in some cases
-         * with Vaadin CDI & Quarkus dev mode,
-         * where the MainLayout is not treated as a CDI bean.
-         * This is a workaround if the accessToke happens
-         * to be null (instantiated by Vaadin instead of CDI).
-         */
-        if (accessToken == null) {
-            accessToken = CDI.current().select(JsonWebToken.class).get();
-        }
-        return accessToken;
-    }
 
     @Override
     protected String getDrawerHeader() {
@@ -54,9 +34,9 @@ public class MainLayout extends org.vaadin.firitin.appframework.MainLayout imple
         }
         sessionlayout.removeAll();
 
-        if (getAccessToken().getName() != null) {
+        if (accessToken.getName() != null) {
             sessionlayout.add(
-                    new Paragraph("Current user:" + getAccessToken().getName()),
+                    new Paragraph("Current user:" + accessToken.getName()),
                     new VButton("Logout", e -> {
                         // This url will be intercepted by
                         // Quarkus OIDC extension and logout will be performed
