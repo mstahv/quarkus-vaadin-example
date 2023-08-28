@@ -27,7 +27,6 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        System.err.println("Redirecting to original view...");
         var session = VaadinRequest.getCurrent().getWrappedSession();
         // ViewAccessChecker saves the original route to session
         // restore that when we are returned form OIDC server
