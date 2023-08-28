@@ -9,6 +9,13 @@ public class ViewAccessCheckerInit {
 
     public ViewAccessCheckerInit() {
         viewAccessChecker = new ViewAccessChecker();
+        // Setting the login view with string forwards to
+        // a URL intercepted by Quarkus OIDC extension
+        // (see application.properties). A second redirect
+        // is then made to the OIDC server for actual login page.
+        // TODO figure out if there is a clean way to get
+        // the OIDC server login URL, could go straight there
+        viewAccessChecker.setLoginView("/" + LoginView.PATH);
     }
 
     public void serviceInit(@Observes ServiceInitEvent serviceInitEvent) {

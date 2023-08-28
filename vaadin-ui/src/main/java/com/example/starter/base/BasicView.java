@@ -48,7 +48,6 @@ public class BasicView extends VerticalLayout {
 
         add(textField, button);
 
-
         Button b = new Button("Greet via REST API (aka calling a microservice)", e -> {
             try {
                 add(new Paragraph(restGreetServiceClient.hello()));
@@ -63,8 +62,9 @@ public class BasicView extends VerticalLayout {
         if(identity.getIdentity().getRoles().contains("admin")) {
             add(new Paragraph("You are also an admin! You can navigate to the admin view either via sidebar or the button below."));
         } else {
-            add(new Paragraph("You are not an admin. If you try clicking the button below the view won't be shown (behaviour depends a bit if on dev mode (shows known views) or on production)."));
+            add(new Paragraph("You are not an admin. If you try clicking the button below the view won't be shown (behaviour depends a bit if on dev mode (shows known views) or on production (empty screen/404)."));
         }
+
         // Adding the button for both users and admins for demo purposes
         add(new Button("Navigate to Admin View", e -> {
             getUI().ifPresent(ui -> ui.navigate(AdminView.class));
