@@ -4,6 +4,7 @@ import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.inject.spi.CDI;
@@ -13,7 +14,7 @@ import org.vaadin.firitin.appframework.NavigationItem;
 import org.vaadin.firitin.components.button.VButton;
 
 @Dependent
-public class MainLayout extends org.vaadin.firitin.appframework.MainLayout {
+public class MainLayout extends org.vaadin.firitin.appframework.MainLayout implements RouterLayout {
 
     VerticalLayout sessionlayout = new VerticalLayout();
 
