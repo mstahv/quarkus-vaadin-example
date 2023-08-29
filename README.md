@@ -13,11 +13,13 @@ This project can be used as a starting point to create your own Vaadin Flow appl
 
 ## Architectural diagrams
 
+If you run both the vaadin-ui and microservice projects with `quarkus run`, you'll end up having following system running:
+
 ```mermaid
   graph TD;
-      v[Vaadin Web UI]
-      k[KeyCloak OIDC server]
-      m[microservice exposing REST endpoint]
+      v[Vaadin Web UI<br>localhost:8080]
+      k[KeyCloak OIDC server<br>started automatically by Quarkus dev mode]
+      m[microservice<br>localhost:8088/greet]
       v<--forwards for authentication,<br> returns with signed tokens-->k;
       v--calls rest end point<br> with a bearer token-->m;
       m-. verifies token indepedenctly<br>with pre-shared cryptographic key .->k;
