@@ -11,6 +11,20 @@ This is a slightly more complex starting point for Quarkus based Vaadin apps. In
 
 This project can be used as a starting point to create your own Vaadin Flow application for Quarkus. It contains all the necessary configuration with some placeholder files to get you started.
 
+## Architectural diagrams
+
+```mermaid
+  graph TD;
+      v[Vaadin Web UI]
+      k[KeyCloak OIDC server]
+      m[microservice exposing REST endpoint]
+      v<--forwards for authentication,<br> returns with signed tokens-->k;
+      v--calls rest end point<br> with a bearer token-->m;
+      m-. verifies token indepedenctly<br>with pre-shared cryptographic key .->k;
+```
+
+
+
 ## Requirements
 
  * Quarkus 3+ & Vaadin 24+ requires *Java 17*.
