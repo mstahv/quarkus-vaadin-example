@@ -25,6 +25,28 @@ If you run both the vaadin-ui and microservice projects with `quarkus run`, you'
       m-. verifies token indepedenctly<br>with pre-shared cryptographic key .->k;
 ```
 
+And what actually happens when a user logs in and uses the "call REST API" button in the UI:
+
+```mermaid
+sequenceDiagram
+    user->>+Server: Clicks login
+    Server->>+OIDC: I need authentication for this dude
+    user->>OIDC: Fills in users name alice & password
+    OIDC->>-Server: Here is the token
+    Server-->OIDC: Verify the token usein <br>pre-shared cryptographic key.<br>No need for actual network visit.
+    Server-->Server: Verify the authenticated <br>user belongs to a required role<br>based on the claims in the token.
+    Server->>-user: Show a secured view
+    user->>+Server: Click "call REST endpoint"
+    Server->>+REST: "localhost:8088/greet with this auth token"
+    REST-->OIDC: "
+    REST-->REST: Verify the token using pre-shared key,<br> no actual server connection.
+    REST-->REST: Read the end user username from the token.
+    REST->>-Server: "Hello alice!"    
+    Server->>-user: REST endpoint responded Hello alice!
+
+```
+
+
 
 
 ## Requirements
