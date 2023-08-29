@@ -16,18 +16,62 @@ This project can be used as a starting point to create your own Vaadin Flow appl
 If you run both the vaadin-ui and microservice projects with `quarkus run`, you'll end up having following system running:
 
 ```mermaid
-  graph TD;
-      v[Vaadin Web UI<br>localhost:8080]
-      k[KeyCloak OIDC server<br>started automatically by Quarkus dev mode]
-      m[microservice<br>localhost:8088/greet]
+%%{
+  init: {
+    'theme':'base',
+    'themeVariables': {
+      'background': '#FFFFFF',
+      'fontFamily': 'Arial',
+      'fontSize': '20px',
+      'lineColor': '#657892',
+      'primaryColor': '#F1F5FB',
+      'primaryBorderColor': '#BBC9DC',
+      'primaryTextColor': '#0D1219',
+      'secondaryColor': '#FFFFFF',
+      'secondaryBorderColor': '#FFFFFF',
+      'secondaryTextColor': '#657892'
+    }
+  }
+}%%
+  graph LR;
+      v(Vaadin Web UI<br>localhost:8080)
+      k(KeyCloak OIDC server<br>started automatically by Quarkus dev mode)
+      m(microservice<br>localhost:8088/greet)
+      m-. verifies token indepedenctly<br>with pre-shared cryptographic key .->k;
       v<--forwards for authentication,<br> returns with signed tokens-->k;
       v--calls rest end point<br> with a bearer token-->m;
-      m-. verifies token indepedenctly<br>with pre-shared cryptographic key .->k;
 ```
 
 And what actually happens when a user logs in and uses the "call REST API" button in the UI:
 
 ```mermaid
+%%{
+  init: {
+    'theme':'base',
+    'themeVariables': {
+      'background': '#FFFFFF',
+      'fontFamily': 'Arial',
+      'fontSize': '20px',
+      'lineColor': '#657892',
+      'primaryColor': '#F1F5FB',
+      'primaryBorderColor': '#BBC9DC',
+      'primaryTextColor': '#0D1219',
+      'secondaryColor': '#95C6FF',
+      'secondaryBorderColor': '#BBC9DC',
+      'secondaryTextColor': '#657892',
+      'tertiaryColor': '#ff0000',
+      'tertiaryBorderColor': '#BBC9DC',
+      'tertiaryTextColor': '#0D1219',
+      'signalColor':'#BBC9DC',
+      'sequenceNumberColor':'#0D1219',
+      'labelBoxBorderColor' :'#BBC9DC',
+      'labelTextColor': '#0D1219',
+      'actorBkg': '#F1F5FB',
+      'actorBorder': '#BBC9DC',
+      'actorTextColor': '#0D1219'
+    }
+  }
+}%%
 sequenceDiagram
     user->>+Server: Clicks login
     Server->>+OIDC: I need authentication for this dude
