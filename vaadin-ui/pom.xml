@@ -61,9 +61,16 @@
             <artifactId>quarkus-oidc</artifactId>
         </dependency>
 
+        <!-- These are used in the example when calling
+             the separately running REST endpoint
+         -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-rest-client-reactive</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-oidc-token-propagation</artifactId>
         </dependency>
 
     </dependencies>
