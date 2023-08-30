@@ -32,12 +32,12 @@ sequenceDiagram
     user->>+Server: Clicks login
     Server->>+OIDC: I need authentication for this dude
     user->>OIDC: Fills in users name alice & password
-    OIDC->>-Server: Here is the token
-    Server-->OIDC: Verify the token usein <br>pre-shared cryptographic key.<br>No need for actual network visit.
+    OIDC->>-Server: Here are the tokens
+    Server-->OIDC: Verify the token using <br>pre-shared cryptographic key.<br>No need for actual network visit.
     Server-->Server: Verify the authenticated <br>user belongs to a required role<br>based on the claims in the token.
     Server->>-user: Show a secured view
     user->>+Server: Click "call REST endpoint"
-    Server->>+REST: "localhost:8088/greet with this auth token"
+    Server->>+REST: "localhost:8088/greet with this access token"
     REST-->OIDC: "
     REST-->REST: Verify the token using pre-shared key,<br> no actual server connection.
     REST-->REST: Read the end user username from the token.
