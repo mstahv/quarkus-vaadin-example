@@ -4,8 +4,8 @@ import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
+import io.quarkus.oidc.IdToken;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.jwt.JsonWebToken;
@@ -13,12 +13,13 @@ import org.vaadin.firitin.appframework.NavigationItem;
 import org.vaadin.firitin.components.button.VButton;
 
 @Dependent
-public class MainLayout extends org.vaadin.firitin.appframework.MainLayout implements RouterLayout {
+public class MainLayout extends org.vaadin.firitin.appframework.MainLayout {
 
     VerticalLayout sessionlayout = new VerticalLayout();
 
     @Inject
-    JsonWebToken accessToken;
+    @IdToken
+    JsonWebToken token;
 
     @Override
     protected String getDrawerHeader() {
@@ -34,9 +35,10 @@ public class MainLayout extends org.vaadin.firitin.appframework.MainLayout imple
         }
         sessionlayout.removeAll();
 
-        if (accessToken.getName() != null) {
+        if (token.getName() != null) {
             sessionlayout.add(
-                    new Paragraph("Current user:" + accessToken.getName()),
+                    new Paragraph("Current user:" + token.getName()),
+
                     new VButton("Logout", e -> {
                         // This url will be intercepted by
                         // Quarkus OIDC extension and logout will be performed
