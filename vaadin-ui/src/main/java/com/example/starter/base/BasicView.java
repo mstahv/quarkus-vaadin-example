@@ -6,6 +6,7 @@ import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import io.quarkus.security.identity.SecurityIdentity;
 import io.quarkus.security.runtime.SecurityIdentityAssociation;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -23,7 +24,7 @@ public class BasicView extends VerticalLayout {
     public static final String PATH = "basic";
 
     @Inject
-    SecurityIdentityAssociation identity;
+    SecurityIdentity identity;
 
     @Inject
     GreetService greetService;
@@ -32,14 +33,14 @@ public class BasicView extends VerticalLayout {
     RestGreetServiceClient restGreetServiceClient;
 
 
-    public BasicView(SecurityIdentityAssociation identity, @ConfigProperty(name = "quarkus.oidc.auth-server-url")
+    public BasicView(SecurityIdentity identity, @ConfigProperty(name = "quarkus.oidc.auth-server-url")
     String oicdServerUrl) {
         add("This view is shown if logged in, the name is taken from the security context. There is also a button to call a REST API (aka microservice), to which the JWT token is passed.");
         add("OICD server: (login with admin/admin if started with Quarkus dev mode)");
         oicdServerUrl = oicdServerUrl.substring(0, oicdServerUrl.indexOf("/realms"));
         add(new Anchor(oicdServerUrl,oicdServerUrl));
         TextField textField = new TextField("Your name");
-        textField.setValue(identity.getIdentity().getPrincipal().getName());
+        textField.setValue(identity.getPrincipal().getName());
 
         // Button click listeners can be defined as lambda expressions
         Button button = new Button("Say hello", e -> {
@@ -59,7 +60,7 @@ public class BasicView extends VerticalLayout {
 
         add(b);
 
-        if(identity.getIdentity().getRoles().contains("admin")) {
+        if(identity.getRoles().contains("admin")) {
             add(new Paragraph("You are also an admin! You can navigate to the admin view either via sidebar or the button below."));
         } else {
             add(new Paragraph("You are not an admin. If you try clicking the button below the view won't be shown (behaviour depends a bit if on dev mode (shows known views) or on production (empty screen/404)."));

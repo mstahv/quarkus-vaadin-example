@@ -7,6 +7,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import io.quarkus.security.identity.SecurityIdentity;
 import io.quarkus.security.runtime.SecurityIdentityAssociation;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -22,17 +23,17 @@ import org.vaadin.firitin.appframework.MenuItem;
 public class AdminView extends VerticalLayout {
 
     @Inject
-    SecurityIdentityAssociation identity;
+    SecurityIdentity identity;
 
     @Inject
     GreetService greetService;
 
-    public AdminView(SecurityIdentityAssociation identity) {
+    public AdminView(SecurityIdentity identity) {
         add(new H1("This view is for admins only"));
         add("Same but different :-)");
 
         TextField textField = new TextField("Your name");
-        textField.setValue(identity.getIdentity().getPrincipal().getName());
+        textField.setValue(identity.getPrincipal().getName());
 
         Button button = new Button("Say hello", e -> {
             add(new Paragraph(greetService.greet(textField.getValue())));
